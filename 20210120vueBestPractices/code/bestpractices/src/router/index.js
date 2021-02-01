@@ -45,6 +45,7 @@ export const asyncRoutes = [
     path: '/about',
     component: Layout,
     redirect: '/about/index',
+    meta: {title: '我的', icon:'qq'},
     children: [
       {
         path: 'index',

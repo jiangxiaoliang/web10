@@ -1,5 +1,6 @@
 // commonjs nodejs
 const path = require('path')
+const bodyParser = require('body-parser')
 const port = 7070
 const title = 'vue的最佳实践'
 
@@ -11,7 +12,46 @@ function resolve(dir) {
 module.exports = {
     publicPath: '/best-practice',
     devServer: {
-        port: port
+        port: port,
+        proxy: {
+            // 代理 /dev-api/user/login 到 http://127.0.0.1:3000/user/login
+            [process.env.VUE_APP_BASE_API]: {
+                target: 'http://localhost:3000/',
+                changeOrigin: true, // 要不要变更origin头
+                pathRewrite: { // 地址重写：http://127.0.0.1:3000/user/login
+                    ['^' + process.env.VUE_APP_BASE_API]: ''
+                }
+            }
+        },
+        // before: app => {
+        //     app.use(bodyParser.json())
+        //     app.use(
+        //         bodyParser.urlencoded({
+        //             extended:  true
+        //         })
+        //     )
+        //     app.post('/dev-api/user/login', (req, res) => {
+        //         const { username } = req.body
+        //         if (username === 'admin' || username === 'jxl') {
+        //             res.json({
+        //                 code: 1,
+        //                 data: username
+        //             })
+        //         } else {
+        //             res.json({
+        //                 code: 10204,
+        //                 message: '用户名或者密码错'
+        //             })
+        //         }
+        //     })
+        //     app.get('/dev-api/user/info', (req, res) => {
+        //         const roles = req.headers['x-token'] === 'admin' ? ['admin'] : ['editor']
+        //         res.json({
+        //             code: 1,
+        //             data: roles
+        //         })
+        //     })
+        // }
     },
     configureWebpack: {
         // 向index.html注入标题
