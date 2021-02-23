@@ -5,7 +5,11 @@ import './App.css';
 // import { Button } from 'antd'
 // import Hoc from './Hoc'
 // import Composition from './Composition'
-import ContextTest from './ContextTest';
+// import ContextTest from './ContextTest';
+// import HookTest from './HookTest';
+// import HookTestAsyncAction from './HookTestAsyncAction'
+// import AntdForm from './AntdFrom'
+import KForm from './KFrom';
 
 function App() {
   return (
@@ -17,7 +21,11 @@ function App() {
       {/* 组件复合 */}
       {/* <Composition /> */}
       {/* 上下文 */}
-      <ContextTest />
+      {/* <ContextTest /> */}
+      {/* <HookTest /> */}
+      {/* <HookTestAsyncAction /> */}
+      {/* <AntdForm /> */}
+      <KForm />
     </div>
   );
 }
