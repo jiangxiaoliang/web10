@@ -9,7 +9,10 @@ import './App.css';
 // import HookTest from './HookTest';
 // import HookTestAsyncAction from './HookTestAsyncAction'
 // import AntdForm from './AntdFrom'
-import KForm from './KFrom';
+// import KForm from './KFrom';
+import HookTestReduxRouter from './HookTestReduxRouter'
+import store from './store'
+import {Provider} from 'react-redux'
 
 function App() {
   return (
@@ -25,7 +28,10 @@ function App() {
       {/* <HookTest /> */}
       {/* <HookTestAsyncAction /> */}
       {/* <AntdForm /> */}
-      <KForm />
+      {/* <KForm /> */}
+      <Provider store={store}>
+        <HookTestReduxRouter />
+      </Provider>
     </div>
   );
 }
