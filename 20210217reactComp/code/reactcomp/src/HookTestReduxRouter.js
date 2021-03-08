@@ -86,7 +86,7 @@ const Login = connect(state => ({
         <div>
             <p>用户登录</p>
             <hr />
-            <button onClick={login}>登录</button>
+            <button onClick={() => login('tom')}>登录</button>
         </div>
     )
 })
