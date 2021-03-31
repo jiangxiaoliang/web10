@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function() {
+            var files = document.getElementsByTagName('input')
+            var len = files.length
+            var file
+            for (var i = 0; i < len; i++) {
+                file = files[i]
+                if (file.type !== 'file') continue
+                file.onchange = function() {
+                    var _files = this.files
+                    if (_files.length === 1) {
+                        var xhr = new XMLHttpRequest()
+                        xhr.open('POST', 'http://localhost:3000/upload')
+                        var filePath = files[0].value
+                        console.log(filePath)
+                        xhr.setRequestHeader('file-name', filePath.substring(filePath.lastIndexOf('\\') + 1))
+                        xhr.send(_files[0])
+                    } else {
+                        
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type='file' id='file1' />
+</body>
+</html>
