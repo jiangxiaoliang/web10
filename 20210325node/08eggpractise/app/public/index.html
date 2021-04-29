@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <button v-on:click="login">Login</button>
+            <button v-on:click="logout">Logout</button>
+            <button v-on:click="getUser">GetUser</button>
+        </div>
+        <div>
+            <button @click="logs=[]">clear Log</button>
+        </div>
+        <ul>
+            <li v-for="(log,index) in logs" :key="index">
+                {{log}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        // 请求时携带cookie
+        // axios.defaults.withCredentials = true
+        axios.interceptors.request.use(config => {
+            const token = window.localStorage.getItem('token')
+            if (token) {
+                config.headers.common['Authorization'] = 'Bearer ' + token
+            }
+            return config
+        }, err => {
+            return Promise.reject(err)
+        })
+        axios.interceptors.response.use(response => {
+            app.logs.push(JSON.stringify(response.data))
+            return response
+        }, err => {
+            app.logs.push(JSON.stringify(response.data))
+            return Promise.reject(err)
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                mobile: '13611388415',
+                password: 'test',
+                logs: []
+            },
+            methods: {
+                login: async function() {
+                    const res = await axios.post('/auth/jwt/login', {
+                        mobile: this.mobile,
+                        password: this.password
+                    })
+                    console.log(res.data.data.token)
+                    localStorage.setItem('token', res.data.data.token)
+                },
+                logout: async function() {
+                    // await axios.post('/logout')
+                    localStorage.removeItem('token')
+                },
+                getUser: async function() {
+                    await axios.get('/api/current')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
