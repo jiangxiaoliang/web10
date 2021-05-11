@@ -1,0 +1,8 @@
+app-pm2:
+    container_name: app-pm2
+    #构建容器
+    build: .
+    # volumes:
+    # - .:/usr/src/app
+    ports:
+        - "3000:3000"
