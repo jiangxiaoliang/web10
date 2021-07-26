@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #content {
+            height: 10000px;
+        }
+        img {
+            height: 400px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+        <img data-src="02imgs/01.jpeg" />
+        <img data-src="02imgs/02.jpg" />
+        <img data-src="02imgs/03.jpeg" />
+    </div>
+</body>
+<script>
+    let imgs = document.querySelectorAll('img')
+    let viewHeight = window.innerHeight || document.documentElement.clientHeight
+    function loadImg() {
+        for (let i = 0; i < imgs.length; i++) {
+            let dis = viewHeight - imgs[i].getBoundingClientRect().top
+            if (dis > 0) {
+                imgs[i].src = imgs[i].getAttribute('data-src')
+            }
+        }
+    }
+    loadImg()
+
+    // 防抖
+    let debounce = (fn, wait = 1000) => {
+        let timer
+        return function(...args) {
+            if (timer) {
+                clearTimeout(timer)
+            }
+            timer = setTimeout(() => {
+                fn.apply(this, args)
+            }, wait)
+        }
+    }
+    // 节流
+    let throttle = (fn, wait = 1000) => {
+        let lastTime = 0
+        return function(...args) {
+            let now =  new Date()
+            if (now - lastTime > wait) {
+                fn.apply(this, args)
+                lastTime = now
+            }
+        }
+    }
+    window.addEventListener('scroll', debounce(() => {
+        loadImg()
+        console.log('滚动监听')
+    }))
+</script>
+</html>
