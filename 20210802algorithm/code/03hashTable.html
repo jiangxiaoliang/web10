@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    class HashTable {
+        constructor() {
+            this.table = []
+        }
+        // 散列函数
+        static loseHashCode(key) {
+            let hash = 0
+            for (let codePoint of key) {
+                hash += codePoint.charCodeAt()
+            }
+            return hash % 37
+        }
+        put(key, value) {
+            const position = HashTable.loseHashCode(key)
+            console.log(`${position} - ${value}`)
+            this.table[position] = value
+        }
+        get(key) {
+            return this.table[HashTable.loseHashCode(key)   ]
+        }
+        remove(key) {
+            this.table[HashTable.loseHashCode(key)] = undefined
+        }
+    }
+
+    const hash = new HashTable()
+    hash.put('Surmon', 'surmon.me@email.com') // 19 - Surmon
+    hash.put('John', 'johnsnow@email.com') // 29 - John
+    hash.put('Tyrion', 'tyrion@email.com') // 16 - Tyrion
+    // 测试get方法
+    console.log(hash.get('Surmon')) // surmon.me@email.com
+    console.log(hash.get('Loiane')) // undefined
+    console.log(hash)
+</script>
+</html>

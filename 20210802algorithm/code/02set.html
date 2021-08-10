@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    class Set {
+        constructor() {
+            this.items = {}
+        }
+        has(value) {
+            return this.items.hasOwnProperty(value)
+        }
+        add(value) {
+            if (!this.has(value)) {
+                this.items[value] = value
+                return true
+            }
+            return false
+        }
+        remove(value) {
+            if (this.has(value)) {
+                delete this.items[value]
+                return true
+            }
+            return false
+        }
+        get size() {
+            return Object.keys(this.items).length
+        }
+        get values() {
+            return Object.keys(this.items)
+        }
+    }
+
+    const setTest = new Set()
+    setTest.add('a')
+    setTest.add('b')
+    setTest.add('c')
+    setTest.add('d')
+    setTest.add('e')
+    console.log(setTest.values)
+    setTest.remove('c')
+    console.log(setTest.values)
+</script>
+</html>
