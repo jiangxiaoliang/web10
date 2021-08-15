@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    class Event {
+        constructor() {
+            this.callbacks = {}
+        }
+        $on(name, fn) {
+            (this.callbacks[name] || (this.callbacks[name] = [])).push(fn)
+        }
+        $emit(name, args) {
+            const cbs = this.callbacks[name]
+            if (cbs) {
+                cbs.forEach(c => {
+                    c.call(this, args)
+                })
+            }
+        }
+        $off(name) {
+            this.callbacks[name] = null
+        }
+    }
+
+    let event = new Event()
+    event.$on('event1', (args) => {
+        console.log('事件1', args)
+    })
+    event.$on('event1', (args) => {
+        console.log('事件1第二次触发', args)
+    })
+    event.$on('event2', (args) => {
+        console.log('事件2', args)
+    })
+
+    // event.$emit('event1', 'jxl')
+    event.$off('event1')
+    event.$emit('event1', 'jxl')
+    event.$emit('event2', 'jxl2')
+</script>
+</html>

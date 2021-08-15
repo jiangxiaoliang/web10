@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .model {
+            border: 1px solid red;
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            top: 20%;
+            left: 50%;
+            margin-left: -150px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <button id="login">点击</button>
+</body>
+<script>
+    var getSingle = function(fn) {
+        var result
+        return function() {
+            return result || (result = fn.apply(this, arguments))
+        }
+    }
+    var createModelLayer = function() {
+        let div = document.createElement('div')
+        div.innerHTML = '我是悬浮框'
+        div.className = 'model'
+        div.style.display = 'none'
+        document.body.appendChild(div)
+        return div
+    }
+    var loginSingleLayer = getSingle(createModelLayer)
+    // document.getElementById('login').onclick = function() {
+    //     loginSingleLayer().style.display = 'block'
+    // }
+   document.getElementById('login').onclick = () => {
+       loginSingleLayer().style.display = 'block'
+   }
+</script>
+</html>
