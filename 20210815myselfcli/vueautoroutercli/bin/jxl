@@ -1,0 +1,56 @@
+#! /usr/bin/env node
+// console.log('cli.....')
+const {program} = require('commander')
+// program.version(require('../package.json').version, '-v', '--version')
+//     .command('init <name>', 'init project')
+//     .command('refresh', 'refresh routes...')
+
+program.version(require('../package.json').version, '-v', '--version')
+    .command('init')
+    .description('init project')
+    .argument('<name>')
+    .action(name => {
+        // console.log('abc', name)
+        const { clone } = require('../lib/download')
+        console.log('🚀创建项目: ' + name)
+        clone('github:su37josephxia/vue-template', name)
+    })
+program.command('refresh')
+    .description('refresh routes...')
+    .action(() => {
+        console.log('refresh')
+    })
+program.parse(process.argv)
+
+const fs = require('fs')
+const handlebars = require('handlebars')
+const symbols = require('log-symbols')
+const chalk = require('chalk')
+
+const list = fs.readdirSync('./src/views')
+    .filter(dir => dir !== 'Home.vue')
+    .map(f =>({
+        name: f.replace('.vue', '').toLocaleLowerCase(),
+        file: f
+    }))
+// console.log('list', list)
+function compile(meta, filePath, templatePath) {
+    if (fs.existsSync(templatePath)) {
+        const content = fs.readFileSync(templatePath).toString()
+        const result = handlebars.compile(content)(meta)
+        fs.writeFileSync(filePath, result)
+    }
+    console.log(symbols.success, chalk.green(`🚀${filePath} 创建成功`))
+}
+compile({ list }, './src/router.js', './template/router.js.hbs')
+compile({ list }, './src/App.vue', './template/App.vue.hbs')
+
+// program
+// .version('0.1.0')
+// .command('init')
+// .argument('<username>', 'user to login')
+// .argument('[password]', 'password for user, if required', 'no password given')
+// .action((username, password) => {
+//     console.log('username:', username);
+//     console.log('password:', password);
+// });

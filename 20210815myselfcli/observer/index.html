@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <label>用户名：<input type="text" id="pba" placeholder="请输入用户名"></label><br /><br />
+        <label>生成邮箱：<input type="text" id="oba" readonly /></label>
+        <label>生成ID：<input type="text" id="obb" readonly /></label>
+    </div>
+</body>
+<script>
+    // 发布者
+    function Publisher(obj) {
+        this.observers = []
+        var state = obj.value
+        this.getState = function() {
+            return state
+        }
+        this.setState = function(value) {
+            state = value
+            this.notice()
+        }
+        this.obj = obj
+    }
+    Publisher.prototype.addOb = function(observer) {
+        var flag = false
+        for (var i = this.observers.length - 1; i >= 0; i--) {
+            if (this.observers[i] === observer) {
+                flag = true
+            }
+        }
+        if (!flag) {
+            this.observers.push(observer)
+        }
+        return this
+    }
+    Publisher.prototype.removeOb = function(observer) {
+        for (i = 0; i < this.observers.length; i++) {
+            if (this.observers[i] === observer) {
+                this.observers.splice(i, 1)
+            }
+        }
+        return this
+    }
+    Publisher.prototype.notice = function() {
+        for (var i = 0; i < this.observers.length; i++) {
+            this.observers[i].update(this.getState())
+        }
+    }
+
+    // 订阅者
+    function Subscribe(obj) {
+        this.obj = obj
+    }
+
+    var oba = new Subscribe(document.querySelector("#oba")),
+        obb = new Subscribe(document.querySelector("#obb"))
+    var pba = new Publisher(document.querySelector("#pba"))
+    pba.addOb(oba)
+    pba.addOb(obb)
+    oba.update = function(state) {
+        this.obj.value = state + '@w3c.com'
+    }
+    obb.update = function(state) {
+        this.obj.value = state + 'Id-' + state
+    }
+    pba.obj.addEventListener('keyup', function() {
+        pba.setState(this.value)
+    })
+</script>
+</html>
